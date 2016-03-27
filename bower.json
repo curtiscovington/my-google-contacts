@@ -11,7 +11,8 @@
     "people",
     "api",
     "polymer",
-    "contacts"
+    "contacts",
+    "web-components"
   ],
   "license": "MIT",
   "homepage": "",
