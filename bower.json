@@ -1,0 +1,26 @@
+{
+  "name": "my-google-contacts",
+  "authors": [
+    "Curtis Covington <curtis.covington@gmail.com>"
+  ],
+  "description": "A simple wrapper for the Google People API.",
+  "main": "my-google-contacts.html",
+  "moduleType": [],
+  "keywords": [
+    "google",
+    "people",
+    "api",
+    "polymer",
+    "contacts"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
+}

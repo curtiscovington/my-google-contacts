@@ -1,0 +1,98 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/google-signin/google-signin-aware.html">
+<link rel="import" href="../bower_components/google-apis/google-client-loader.html">
+
+<dom-module id="my-google-contacts">
+  <template>
+    <style>
+      :host {
+        display: block;
+        
+      }
+    </style>
+    <google-signin-aware
+      client-id="{{clientId}}"
+      scopes="https://www.googleapis.com/auth/contacts"
+      on-google-signin-aware-success="handleSignin"
+      on-google-signin-aware-signed-out="handleSignout"
+      ></google-signin-aware>
+
+      <google-client-loader id="people"
+  name="people"
+  version="v1"></google-client-loader>
+
+  </template> 
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'my-google-contacts',
+
+        properties: {
+          clientId: {
+            type: String
+          },
+          contacts: {
+            type: Array,
+            readOnly: true,
+            notify: true,
+            observer: 'contactsChanged'
+          },
+          headers: {
+            type: String,
+            readOnly: true,
+            notify: true,
+          },
+          email: {
+            type: String,
+            readOnly: true,
+            notify: true,
+          },
+          url: {
+            type: String,
+            computed: 'computeURL(email)'
+          }
+
+        },
+        contactsChanged: function(newVal, oldVal) {
+          console.log(newVal);
+        },
+        computeURL: function(email) {
+          return "https://people.googleapis.com/v1/me/connections"
+        },
+        handleResponse: function(res) {
+          console.log(res);
+        },
+        ready: function() {
+          //console.log(this.$.client.auth);
+        },
+
+        handleSignin: function() {
+          let that = this;
+          let p = this.$.people
+          p.addEventListener('google-api-load', function() {
+            let api = p.api;
+            let request = api.people.connections.list({
+              'resourceName': 'people/me',
+              // Includes the fields requested. No additional calls to the get endpoint are needed
+              'requestMask.includeField': ['person.phoneNumbers', 'person.names', 'person.metadata'],
+              'sortOrder' : 'FIRST_NAME_ASCENDING',
+              // 500 is the maximum size
+              'pageSize': 500});
+            request.execute(function(res) {
+              
+              that._setContacts(res.connections);
+            });
+          });
+        },
+        handleSignout: function() {
+          console.log("SIGNOUT");
+        }
+      });
+      
+    })();
+  </script>
+</dom-module>
