@@ -6,4 +6,6 @@ Feel free to fork to impove.
 
 Must have an authiticated user to use.
 
-```<google-sigin client-id="{{clientId}}" scopes="https://www.googleapis.com/auth/contacts"></google-signin><my-google-contacts client-id="{{clientId}}" contacts="{{contacts}}"></my-google-contacts>```
+```js
+<google-sigin client-id="{{clientId}}" scopes="https://www.googleapis.com/auth/contacts"></google-signin>
+<my-google-contacts client-id="{{clientId}}" contacts="{{contacts}}"></my-google-contacts>```
